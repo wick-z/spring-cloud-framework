@@ -1,0 +1,44 @@
+## 指定服务监听端口
+server:
+  port: 8082
+## 指定服务注册中心位置
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8500/eureka/
+  instance:
+    prefer-ip-address: true
+## 指定服务名
+spring:
+  application:
+    name: api-gateway-service
+  zipkin: ## zipkin监控服务地址
+    base-url: http://localhost:8084
+  sleuth:
+    sampler: ## 配置sleuth的收集比率
+      probability: 1
+
+## 配置JWT公钥，用于加密用户信息
+jwt:
+  key:
+    public: |
+        -----BEGIN PUBLIC KEY-----
+        MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQC2emdF6FlWh0Rc0Po/35R5e0EL
+        4arLGwleVATiSqE9wEPJX8o23aiB/uZ35H4SUm2YpeSHYHr48bCuRFMTbEIzSVvx
+        Vz6RxBWnO4MSC8Dd4qU30lGtlt2tkMekM78Ie95pnDcQpGKx8aNy9mWeZZI5OBim
+        S2EInqqGm19ckFLjnQIDAQAB
+        -----END PUBLIC KEY-----
+
+## 配置网关相关信息
+zuul:
+  ignoredServices: '*'
+  routes:
+    auth-service: /auth/**
+  sensitive-headers: Cookie,Set-Cookie
+  host: ## HTTP连接超时时间
+    connect-timeout-millis: 15000
+    ## socket超时
+    socket-timeout-millis: 60000
+  ribbon-isolation-strategy: thread
+  thread-pool:
+    use-separate-thread-pools: true

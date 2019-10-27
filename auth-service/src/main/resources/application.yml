@@ -1,0 +1,69 @@
+## 服务监听端口
+server:
+  port: 8081
+## 服务注册地址
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8500/eureka/
+  instance:
+    prefer-ip-address: true
+## 应用服务名
+spring:
+  application:
+    name: auth-service
+  ## 数据源
+  datasource:
+#    driver-class-name: 'com.mysql.cj.jdbc.Driver'
+#    url: jdbc:mysql://localhost:3306/test?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=Asia/Shanghai
+    username: sa
+    password: sa
+    druid:
+      testWhileIdle: 'true'
+      validationQuery: 'select 1'
+    driver-class-name: org.h2.Driver
+    url: jdbc:h2:mem:auth;MODE=MySQL;DB_CLOSE_DELAY=-1;DATABASE_TO_UPPER=false;
+    schema: classpath:schema.sql
+    data: classpath:data.sql
+  ## jpa设置
+  jpa:
+    hibernate: ## 这里不能用hibernate的ddl,因为会覆盖上面的脚本执行，它会读取实体的配置
+      ddl-auto: none
+    show-sql: true
+  zipkin: ## zipkin监控服务地址
+    base-url: http://localhost:8084
+  sleuth:
+    sampler: ## 配置sleuth的收集比率
+      probability: 1
+  h2:
+    console:
+      path: /h2
+      enabled: true
+## JWT token 的私钥
+jwt:
+  key:
+    private: |
+        -----BEGIN RSA PRIVATE KEY-----
+        MIICXAIBAAKBgQC2emdF6FlWh0Rc0Po/35R5e0EL4arLGwleVATiSqE9wEPJX8o2
+        3aiB/uZ35H4SUm2YpeSHYHr48bCuRFMTbEIzSVvxVz6RxBWnO4MSC8Dd4qU30lGt
+        lt2tkMekM78Ie95pnDcQpGKx8aNy9mWeZZI5OBimS2EInqqGm19ckFLjnQIDAQAB
+        AoGAQfM/O+7bywAcXwdQSqF9weIgAjFPTxS4cBUhpr+eQvkoBrHOHcJC0qjTluVI
+        A0szPQZH7/2YtDx1xKYA+HYZ/l70X2fWYatDxH66AP5vp1FqWz1SOVRf5BHVm6hy
+        3gsWnsnnhwzgxHhOjFh7K8i48s6gt19hGsF2VRJk1yNcpcECQQDcYSSQULR9B0HO
+        Cg50pvH7aM1OAp+i8eIQ9U+Oh5sNib+H1l10tncXELZqx+dAptCwR5HcrXhWHYc4
+        TDz/NzsJAkEA0/j68mbKWHwk2thSl62KcjWvtq4jCzA/mkL6VR9+OinuOslEvrVy
+        Bzicm3G+zCffruzr4SdcHhW8TeROy8FE9QJBAM88GmILQm6AMIVMN6PCibLdLpK5
+        LNzRkMBZrmJdapUkf5OBJYjnPL3X3XI0YWYOeBgMdUGLbqmsQsfSCVoF2eECQBcs
+        qFrqDANCh1D5x4XXrkQwRGangSNPAhUeb3nw+H7paKc6q+5hrfbGJLEF7YMqdNUO
+        B/fUssiDPdQSOt8h4SUCQA8K0QOH6uRdTt2CDGFNZKyWvGOJeyyKLu2VvZHQD4sP
+        x+Mdv0WeJRYpPetOWgD6B47is+HVYiuUQbrrPtvL0x0=
+        -----END RSA PRIVATE KEY-----
+## 全局日志级别
+logging:
+  level:
+    root: info
+## 客户端配置, 提供内部方法使用，暂时不用
+oauth2:
+  client:
+    clientId: client
+    clientSecret: test

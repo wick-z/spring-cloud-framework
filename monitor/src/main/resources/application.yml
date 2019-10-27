@@ -1,0 +1,26 @@
+## 指定服务监听端口
+server:
+  port: 8084
+## 指定服务注册中心位置
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8500/eureka/
+  instance:
+    prefer-ip-address: true
+## 指定服务名
+spring:
+  application:
+    name: monitor-server
+
+management:
+  metrics:
+    web:
+      server: ## 避免访问zipkin页面报java.lang.IllegalArgumentException, http://ip:port/zipkin/
+        auto-time-requests: false
+turbine: ## 配置监控的服务列表
+  app-config: API-GATEWAY-SERVICE,AUTH-SERVICE
+  aggregator: ## 默认集群监控配置
+    cluster-config: default
+  clusterNameExpression: "'default'"
+  instanceUrlSuffix: /hystrix.stream
